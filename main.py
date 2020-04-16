@@ -5,9 +5,15 @@ import classes
 
 
 def main():
-    affichage = classes.Affichage()
+    affichage = classes.Affichage(13, 1)
     affichage.afficher_labyrinthe()
-    macGyver = classes.MacGyver(13, 1)
+    while True:
+        choix = input("Entrez 'z':haut/'q':gauche/'s':bas/'d':droite  'fin' pour quitter")
+        if choix == 'q':
+            break
+        if choix == 'z':
+
+
 
 
 if __name__ == "__main__":

@@ -1,3 +1,6 @@
+from constantes import COTE
+
+
 class Personnage:
     pass
 
@@ -19,21 +22,32 @@ class Affichage:
         self.abscisse_macgyver = abscisse_macgyver
         self.ordonnee_macgyver = ordonnee_macgyver
 
-
-    def afficher_labyrinthe(self):
+    def creation_liste_labyrinthe(self):
+        """création d'une liste de liste pour représenter le labyrinthe"""
+        liste_labyrinthe = [COTE][COTE]
         fichier_labyrinthe = open("labyrinthe.txt", "r")
         lignes = fichier_labyrinthe.readlines()
-        for countX in range(0, len(lignes)):
-            if countX == self.abscisse_macgyver:
+        for numero_ligne in range(0, COTE):
+            for numero_colonne in range(0, COTE):
+            for carac in ligne:
+
+
+
+
+#def afficher_labyrinthe(self):
+     #   fichier_labyrinthe = open("labyrinthe.txt", "r")
+      #  lignes = fichier_labyrinthe.readlines()
+       # for countY in range(0, len(lignes)):
+        #    if countY == self.ordonnee_macgyver:
                 # lire la ligne caractère par caractère
-                for countY in range(0, len(lignes[countX])):
-                    if countY == self.ordonnee_macgyver:
-                        print('G', end='')
-                    else:
-                        print(lignes[countX][countY], end='')
-            else:
-                print(lignes[countX], end='')
-        fichier_labyrinthe.close()
+         #       for countX in range(0, len(lignes[countY])):
+          #         if countX == self.abscisse_macgyver:
+           #             print('G', end='')
+           #         else:
+            #            print(lignes[countY][countX], end='')
+           # else:
+            #    print(lignes[countY], end='')
+        # fichier_labyrinthe.close()
 
 
 class GameManager:
