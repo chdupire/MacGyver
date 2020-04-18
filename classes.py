@@ -1,15 +1,28 @@
 class Personnage:
-    pass
+    """Création des personnages?"""
+    def __init__(self, coordonnees):
+        """Coordonnees est un tuple (abscisse, ordonnee) avec pour origine le coin supérieur gauche"""
+        self.coordonnees = coordonnees
 
 
-class MacGyver:
-    def __init__(self, abscisse, ordonnee):
-        # l'origine est le coin supérieur gauche
-        self.abscisse = abscisse
-        self.ordonnee : ordonnee
+class MacGyver(Personnage):
+    """Gestion de MacGyver"""
+    def __init__(self, coordonnees):
+        super().__init__(coordonnees)
+
+    def deplacement(self, commande):
+        """déplace MacGyver en fonction du choix de l'utilisateur: (ZQSD) pour Haut/Bas/Gauche/Droite """
+        if commande == 'z':
+            self.coordonnes[1] -= 1
+        if commande == 'q':
+            self.coordonnees[0] -= 1
+        if commande == 's':
+            self.coordonnees[1] += 1
+        if commande == 'd':
+            self.coordonnees[0] += 1
 
 
-class Gardien:
+class Gardien(Personnage):
     pass
 
 
@@ -49,7 +62,7 @@ class Affichage:
 
 
 class GameManager:
-    # importer les objets
+    # importer les objets?
     # boucle de jeu
     # Conditions de victoire/défaite
     pass
