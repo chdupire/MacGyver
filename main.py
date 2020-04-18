@@ -5,10 +5,11 @@ import classes
 
 
 def main():
+    chargement = classes.Chargement()
+    chargement.initialisation_labyrinthe()
     macgyver = classes.MacGyver([13, 1])
-    affichage = classes.Affichage(macgyver.coordonnees)
-    affichage.initialisation_labyrinthe()
-    affichage.ajout_position_macgyver()
+    affichage = classes.Affichage(macgyver.coordonnees, chargement.liste)
+    affichage.ajout_macgyver()
     affichage.affichage_labyrinthe()
     while 1:
         print()
@@ -16,9 +17,9 @@ def main():
         if choix == 'e':
             break
         else:
-            affichage.initialisation_labyrinthe()
+            affichage.effacer_macgyver()
             macgyver.deplacement(choix)
-            affichage.ajout_position_macgyver()
+            affichage.ajout_macgyver()
             affichage.affichage_labyrinthe()
 
 
