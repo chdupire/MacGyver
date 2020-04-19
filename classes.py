@@ -30,18 +30,15 @@ class Chargement:
     """Chargement des fichiers textes et images"""
     def __init__(self):
         # Le Labyrinthe est représenté par une liste de listes
-        self.liste = []
+        self.liste_labyrinthe = []
 
     def initialisation_labyrinthe(self):
         """Chargement de la liste de listes à partir du fichier labyrinthe.txt"""
         fichier_labyrinthe = open("labyrinthe.txt", "r")
-        ligne = fichier_labyrinthe.readline()
-        liste_ligne = list(ligne)
-        self.liste.append(liste_ligne)
-        while ligne:
-            ligne = fichier_labyrinthe.readline()
-            liste_ligne = list(ligne)
-            self.liste.append(liste_ligne)
+        lignes = fichier_labyrinthe.readlines()
+        for ligne in lignes:
+            ligne = list(ligne.strip())
+            self.liste_labyrinthe.append(ligne)
         fichier_labyrinthe.close()
 
 
@@ -52,25 +49,24 @@ class Affichage:
         self.coordonnees_macgyver = coordonnees_macgyver
         self.liste_labyrinthe = liste_labyrinthe
 
-    def effacer_macgyver(self):
-        """efface macgyver"""
-        ligne = self.liste_labyrinthe[self.coordonnees_macgyver[1]]
-        caractere = ligne[self.coordonnees_macgyver[0]]
-        if caractere == 'O':
-            ligne[self.coordonnees_macgyver[0]] = ' '
-
-    def ajout_macgyver(self):
-        """modifie la liste afin d'ajouter la position de macgyver désigné par 'H' """
+    def ajouter_macgyver(self):
+        """modifie la liste afin d'ajouter la position de macgyver désigné par 'O' """
+        # On commence par effacer l'ancienne position
+        for ligne in self.liste_labyrinthe:
+            for i in range(15):
+                if ligne[i] == 'O':
+                    ligne[i] = ' '
+        # Puis on ajoute la nouvelle position
         ligne = self.liste_labyrinthe[self.coordonnees_macgyver[1]]
         caractere = ligne[self.coordonnees_macgyver[0]]
         if caractere == ' ':
             ligne[self.coordonnees_macgyver[0]] = 'O'
 
     def affichage_labyrinthe(self):
-        """"affiche le labyrinthe avec la position de MacGyver"""
+        """"affiche le labyrinthe"""
         for ligne in self.liste_labyrinthe:
-            for carac in ligne:
-                print(carac, end='')
+            ligne = ''.join(ligne)
+            print(ligne)
 
 
 class GameManager:
