@@ -7,19 +7,28 @@ class Personnage:
 
 class MacGyver(Personnage):
     """Gestion de MacGyver"""
-    def __init__(self, coordonnees):
+    def __init__(self, coordonnees, liste_labyrinthe):
         super().__init__(coordonnees)
+        self.liste_labyrinthe = liste_labyrinthe
 
     def deplacement(self, commande):
         """déplace MacGyver en fonction du choix de l'utilisateur: (ZQSD) pour Haut/Bas/Gauche/Droite """
         if commande == 'z':
-            self.coordonnees[1] -= 1
+            ligne = self.liste_labyrinthe[self.coordonnees[1] - 1]
+            if ligne[self.coordonnees[0]] == ' ':
+                self.coordonnees[1] -= 1
         if commande == 'q':
-            self.coordonnees[0] -= 1
+            ligne = self.liste_labyrinthe[self.coordonnees[1]]
+            if ligne[self.coordonnees[0] - 1] == ' ':
+                self.coordonnees[0] -= 1
         if commande == 's':
-            self.coordonnees[1] += 1
+            ligne = self.liste_labyrinthe[self.coordonnees[1] + 1]
+            if ligne[self.coordonnees[0]] == ' ':
+                self.coordonnees[1] += 1
         if commande == 'd':
-            self.coordonnees[0] += 1
+            ligne = self.liste_labyrinthe[self.coordonnees[1]]
+            if ligne[self.coordonnees[0] + 1] == ' ':
+                self.coordonnees[0] += 1
 
 
 class Gardien(Personnage):
@@ -58,9 +67,7 @@ class Affichage:
                     ligne[i] = ' '
         # Puis on ajoute la nouvelle position
         ligne = self.liste_labyrinthe[self.coordonnees_macgyver[1]]
-        caractere = ligne[self.coordonnees_macgyver[0]]
-        if caractere == ' ':
-            ligne[self.coordonnees_macgyver[0]] = 'O'
+        ligne[self.coordonnees_macgyver[0]] = 'O'
 
     def affichage_labyrinthe(self):
         """"affiche le labyrinthe"""

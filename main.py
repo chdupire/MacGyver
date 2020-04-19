@@ -7,7 +7,7 @@ import classes
 def main():
     chargement = classes.Chargement()
     chargement.initialisation_labyrinthe()
-    macgyver = classes.MacGyver([13, 1])
+    macgyver = classes.MacGyver([13, 1], chargement.liste_labyrinthe)
     affichage = classes.Affichage(macgyver.coordonnees, chargement.liste_labyrinthe)
     affichage.ajouter_macgyver()
     affichage.affichage_labyrinthe()
