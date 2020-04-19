@@ -1,3 +1,6 @@
+import random
+
+
 class Personnage:
     """Création des personnages?"""
     def __init__(self, coordonnees):
@@ -82,3 +85,27 @@ class GameManager:
     # boucle de jeu
     # Conditions de victoire/défaite
     pass
+
+
+class Item:
+    """Création et gestion des objets aiguille(A), éther(E), seringue(S), tube(T)"""
+    def __init__(self, liste_labyrinthe):
+        self.coordonnees_aiguille = [0, 0]
+        self.coordonnees_ether = [0, 0]
+        self.coordonnees_seringue = [0, 0]
+        self.coordonnees_tube = [0, 0]
+        self.liste_labyrinthe = liste_labyrinthe
+
+
+    def initialisation_objets(self):
+        """Dispose aléatoirement les objets dans le labyrinthe"""
+        for coordonnees in [self.coordonnees_aiguille, self.coordonnees_ether, self.coordonnees_seringue,
+                            self.coordonnees_tube]:
+            while coordonnees == [0, 0]:
+                abscisse = random.randrange(1, 15)
+                ordonnee = random.randrange(1, 15)
+                if self.liste_labyrinthe[ordonnee][abscisse] == ' ':
+                    coordonnees = [abscisse, ordonnee]
+                    print('coucou')
+
+
