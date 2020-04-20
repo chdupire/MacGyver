@@ -81,31 +81,28 @@ class Affichage:
 
 class GameManager:
     """Boucle du jeu, détermine les conditions de la victoire/défaite"""
-    # importer les objets?
+    # importer les objets
     # boucle de jeu
     # Conditions de victoire/défaite
-    pass
+    # recommencer le jeu
+    def find_empty_square(self, liste_labyrinthe):
+        empty_list = []
+        for x in range(15):
+            for y in range(15):
+                if liste_labyrinthe[y][x] == ' ':
+                    empty_list.append([y, x])
+        return empty_list
+
+    def init_items(self, empty_list):
+        positions = random.sample(empty_list, 3)
+
+
 
 
 class Item:
     """Création et gestion des objets aiguille(A), éther(E), seringue(S), tube(T)"""
-    def __init__(self, liste_labyrinthe):
-        self.coordonnees_aiguille = [0, 0]
-        self.coordonnees_ether = [0, 0]
-        self.coordonnees_seringue = [0, 0]
-        self.coordonnees_tube = [0, 0]
-        self.liste_labyrinthe = liste_labyrinthe
+    def __init__(self,x, y):
+        self.position = (x, y)
 
-
-    def initialisation_objets(self):
-        """Dispose aléatoirement les objets dans le labyrinthe"""
-        for coordonnees in [self.coordonnees_aiguille, self.coordonnees_ether, self.coordonnees_seringue,
-                            self.coordonnees_tube]:
-            while coordonnees == [0, 0]:
-                abscisse = random.randrange(1, 15)
-                ordonnee = random.randrange(1, 15)
-                if self.liste_labyrinthe[ordonnee][abscisse] == ' ':
-                    coordonnees = [abscisse, ordonnee]
-                    print('coucou')
 
 
