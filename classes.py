@@ -19,20 +19,47 @@ class MacGyver(Character):
         """move the character according to the player's choice: (ZQSD) for Up/Down/Left/Right """
         if player_choice == 'z':
             line = self.labyrinth_list[self.coordinates[1] - 1]
-            if line[self.coordinates[0]] == ' ':
+            if line[self.coordinates[0]] in [' ', 'A', 'T', 'E', 'G']:
+                MacGyver.collect_item(self, line[self.coordinates[0]])
                 self.coordinates[1] -= 1
         if player_choice == 'q':
             line = self.labyrinth_list[self.coordinates[1]]
-            if line[self.coordinates[0] - 1] == ' ':
+            if line[self.coordinates[0] - 1] in [' ', 'A', 'T', 'E', 'G']:
+                MacGyver.collect_item(self, line[self.coordinates[0] - 1])
                 self.coordinates[0] -= 1
         if player_choice == 's':
             line = self.labyrinth_list[self.coordinates[1] + 1]
-            if line[self.coordinates[0]] == ' ':
+            if line[self.coordinates[0]] in [' ', 'A', 'T', 'E', 'G']:
+                MacGyver.collect_item(self, line[self.coordinates[0]])
                 self.coordinates[1] += 1
         if player_choice == 'd':
             line = self.labyrinth_list[self.coordinates[1]]
-            if line[self.coordinates[0] + 1] == ' ':
+            if line[self.coordinates[0] + 1] in [' ', 'A', 'T', 'E', 'G']:
+                MacGyver.collect_item(self, line[self.coordinates[0] + 1])
                 self.coordinates[0] += 1
+
+    def collect_item(self, char):
+        if char == 'A':
+            self.items_owned['Needle'] = True
+            print(self.items_owned['Needle'])
+        if char == 'T':
+            self.items_owned['Tube'] = True
+            print(self.items_owned['Tube'])
+        if char == 'E':
+            self.items_owned['Ether'] = True
+            print(self.items_owned['Ether'])
+
+    def display_blackband(self):
+        print("Objets détenus par MacGyver : ", end=' ')
+        print("NTE")
+
+        for key, value in self.items_owned.items():
+            print(f" {key}:", end='')
+            if value == True:
+                print("Oui", end=' ')
+            else:
+                print("Non", end=' ')
+        print()
 
 
 class Guardian(Character):
@@ -76,7 +103,7 @@ class Display:
 
     def items_display(self):
         """add to the list the items: needle(N), plastic tube (T) and ether(E)"""
-        items_dictionary = {0 : 'N', 1 : 'T', 2 : 'E'}
+        items_dictionary = {0 : 'A', 1 : 'T', 2 : 'E'}
         for key in items_dictionary:
             line = self.labyrinth_list[self.items_positions[key][1]]
             line[self.items_positions[key][0]] = items_dictionary[key]
@@ -90,14 +117,6 @@ class Display:
         for line in self.labyrinth_list:
             line = ''.join(line)
             print(line)
-        # Display the black band with items owned
-        print("Objets détenus par MacGyver : ", end=' ')
-        for key in MacGyver(self.macgyver_coordinates, self.labyrinth_list).items_owned:
-            print(f" {key}:", end='')
-            if MacGyver(self.macgyver_coordinates, self.labyrinth_list).items_owned:
-                print("Oui", end=' ')
-            else:
-                print("Non", end=' ')
 
 
 class GameManager:
@@ -109,7 +128,6 @@ class GameManager:
 
     def __init__(self,labyrinth_list):
         self.labyrinth_list = labyrinth_list
-
 
     def find_empty_square(self, labyrinth_list):
         empty_list = []

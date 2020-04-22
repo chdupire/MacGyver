@@ -10,10 +10,12 @@ def main():
     macgyver = classes.MacGyver([13, 1], loading.labyrinth_list)
     game = classes.GameManager(loading.labyrinth_list)
     items_positions = game.init_items(game.find_empty_square(loading.labyrinth_list))
+    print(items_positions)
     display = classes.Display(macgyver.coordinates, loading.labyrinth_list, items_positions)
     display.macgyver_display()
     display.items_display()
     display.labyrinth_display()
+    #macgyver.display_blackband()
     while 1:
         print()
         choice = input("zqsd ou e pour quitter: ")
@@ -23,6 +25,7 @@ def main():
             macgyver.move(choice)
             display.macgyver_display()
             display.labyrinth_display()
+            macgyver.display_blackband()
 
 
 if __name__ == "__main__":
