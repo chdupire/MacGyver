@@ -5,28 +5,26 @@ import random
 
 
 def main():
-    chargement = classes.Chargement()
-    chargement.initialisation_labyrinthe()
-    macgyver = classes.MacGyver([13, 1], chargement.liste_labyrinthe)
-    affichage = classes.Affichage(macgyver.coordonnees, chargement.liste_labyrinthe)
-    affichage.ajouter_macgyver()
-    affichage.affichage_labyrinthe()
-    game = classes.GameManager()
-    game.init_items(game.find_empty_square(chargement.liste_labyrinthe))
-
-    exit()
-    #item = classes.Item(chargement.liste_labyrinthe)
+    loading = classes.Loading()
+    loading.labyrinth_initialization()
+    macgyver = classes.MacGyver([13, 1], loading.labyrinth_list)
+    display = classes.Display(macgyver.coordinates, loading.labyrinth_list)
+    display.macgyver_display()
+    display.labyrinth_display()
+    #game = classes.GameManager()
+    #game.init_items(game.find_empty_square(loading.labyrinth_list))
+    #item = classes.Item(loading.liste_labyrinthe)
     #item.initialisation_objets()
     #print(item.coordonnees_tube)
     while 1:
         print()
-        choix = input("zqsd ou e pour quitter: ")
-        if choix == 'e':
+        choice = input("zqsd ou e pour quitter: ")
+        if choice == 'e':
             break
         else:
-            macgyver.deplacement(choix)
-            affichage.ajouter_macgyver()
-            affichage.affichage_labyrinthe()
+            macgyver.move(choice)
+            display.macgyver_display()
+            display.labyrinth_display()
 
 
 if __name__ == "__main__":

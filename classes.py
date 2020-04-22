@@ -1,82 +1,82 @@
 import random
 
 
-class Personnage:
-    """Création des personnages?"""
-    def __init__(self, coordonnees):
-        """Coordonnees est une liste [abscisse, ordonnee] avec pour origine le coin supérieur gauche"""
-        self.coordonnees = coordonnees
+class Character:
+    """Character creation"""
+    def __init__(self, coordinates):
+        """coordinates is a list [abscissa, ordered] with origin the upper left corner"""
+        self.coordinates = coordinates
 
 
-class MacGyver(Personnage):
-    """Gestion de MacGyver"""
-    def __init__(self, coordonnees, liste_labyrinthe):
-        super().__init__(coordonnees)
-        self.liste_labyrinthe = liste_labyrinthe
+class MacGyver(Character):
+    """MacGyver management"""
+    def __init__(self, coordinates, labyrinth_list):
+        super().__init__(coordinates)
+        self.labyrinth_list = labyrinth_list
 
-    def deplacement(self, commande):
-        """déplace MacGyver en fonction du choix de l'utilisateur: (ZQSD) pour Haut/Bas/Gauche/Droite """
-        if commande == 'z':
-            ligne = self.liste_labyrinthe[self.coordonnees[1] - 1]
-            if ligne[self.coordonnees[0]] == ' ':
-                self.coordonnees[1] -= 1
-        if commande == 'q':
-            ligne = self.liste_labyrinthe[self.coordonnees[1]]
-            if ligne[self.coordonnees[0] - 1] == ' ':
-                self.coordonnees[0] -= 1
-        if commande == 's':
-            ligne = self.liste_labyrinthe[self.coordonnees[1] + 1]
-            if ligne[self.coordonnees[0]] == ' ':
-                self.coordonnees[1] += 1
-        if commande == 'd':
-            ligne = self.liste_labyrinthe[self.coordonnees[1]]
-            if ligne[self.coordonnees[0] + 1] == ' ':
-                self.coordonnees[0] += 1
+    def move(self, player_choice):
+        """move the character according to the player's choice: (ZQSD) for Up/Down/Left/Right """
+        if player_choice == 'z':
+            line = self.labyrinth_list[self.coordinates[1] - 1]
+            if line[self.coordinates[0]] == ' ':
+                self.coordinates[1] -= 1
+        if player_choice == 'q':
+            line = self.labyrinth_list[self.coordinates[1]]
+            if line[self.coordinates[0] - 1] == ' ':
+                self.coordinates[0] -= 1
+        if player_choice == 's':
+            line = self.labyrinth_list[self.coordinates[1] + 1]
+            if line[self.coordinates[0]] == ' ':
+                self.coordinates[1] += 1
+        if player_choice == 'd':
+            line = self.labyrinth_list[self.coordinates[1]]
+            if line[self.coordinates[0] + 1] == ' ':
+                self.coordinates[0] += 1
 
 
-class Gardien(Personnage):
+class Guardian(Character):
     pass
 
 
-class Chargement:
-    """Chargement des fichiers textes et images"""
+class Loading:
+    """Loading text and image files"""
     def __init__(self):
-        # Le Labyrinthe est représenté par une liste de listes
-        self.liste_labyrinthe = []
+        # The labyrinth is represented by a list of lists
+        self.labyrinth_list = []
 
-    def initialisation_labyrinthe(self):
-        """Chargement de la liste de listes à partir du fichier labyrinthe.txt"""
-        fichier_labyrinthe = open("labyrinthe.txt", "r")
-        lignes = fichier_labyrinthe.readlines()
-        for ligne in lignes:
-            ligne = list(ligne.strip())
-            self.liste_labyrinthe.append(ligne)
-        fichier_labyrinthe.close()
+    def labyrinth_initialization(self):
+        """Loading the list of lists from file labyrinth.txt"""
+        labyrinth_file = open("labyrinth.txt", "r")
+        lines = labyrinth_file.readlines()
+        for line in lines:
+            line = list(line.strip())
+            self.labyrinth_list.append(line)
+        labyrinth_file.close()
 
 
-class Affichage:
-    """Gestion de l'affichage du labyrinthe, des murs, du sol des objets et des personnages."""
-    def __init__(self, coordonnees_macgyver, liste_labyrinthe):
-        # coordonnees_macgyver est un tuple (abscisse, ordonnee) avec pour origine le coin supérieur gauche
-        self.coordonnees_macgyver = coordonnees_macgyver
-        self.liste_labyrinthe = liste_labyrinthe
+class Display:
+    """Display management of labyrinth, walls, floor items and characters."""
+    def __init__(self, macgyver_coordinates, labyrinth_list):
+        # macgyver_coordinates is a tuple (abscissa, ordered) with origin the upper left corner
+        self.macgyver_coordinates = macgyver_coordinates
+        self.labyrinth_list = labyrinth_list
 
-    def ajouter_macgyver(self):
-        """modifie la liste afin d'ajouter la position de macgyver désigné par 'O' """
-        # On commence par effacer l'ancienne position
-        for ligne in self.liste_labyrinthe:
+    def macgyver_display(self):
+        """modify the list in order to add the macgyver positioon indicated by 'O' """
+        # we start by erasing the old position
+        for line in self.labyrinth_list:
             for i in range(15):
-                if ligne[i] == 'O':
-                    ligne[i] = ' '
-        # Puis on ajoute la nouvelle position
-        ligne = self.liste_labyrinthe[self.coordonnees_macgyver[1]]
-        ligne[self.coordonnees_macgyver[0]] = 'O'
+                if line[i] == 'O':
+                    line[i] = ' '
+        # then we add the new position
+        line = self.labyrinth_list[self.macgyver_coordinates[1]]
+        line[self.macgyver_coordinates[0]] = 'O'
 
-    def affichage_labyrinthe(self):
-        """"affiche le labyrinthe"""
-        for ligne in self.liste_labyrinthe:
-            ligne = ''.join(ligne)
-            print(ligne)
+    def labyrinth_display(self):
+        """"display the labyrinth from the list"""
+        for line in self.labyrinth_list:
+            line = ''.join(line)
+            print(line)
 
 
 class GameManager:
@@ -85,11 +85,11 @@ class GameManager:
     # boucle de jeu
     # Conditions de victoire/défaite
     # recommencer le jeu
-    def find_empty_square(self, liste_labyrinthe):
+    def find_empty_square(self, labyrinth_list):
         empty_list = []
         for x in range(15):
             for y in range(15):
-                if liste_labyrinthe[y][x] == ' ':
+                if labyrinth_list[y][x] == ' ':
                     empty_list.append([y, x])
         return empty_list
 
@@ -97,10 +97,8 @@ class GameManager:
         positions = random.sample(empty_list, 3)
 
 
-
-
 class Item:
-    """Création et gestion des objets aiguille(A), éther(E), seringue(S), tube(T)"""
+    """Creation and management of the items: needle, plastic tube and ether"""
     def __init__(self,x, y):
         self.position = (x, y)
 
