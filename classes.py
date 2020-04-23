@@ -122,6 +122,25 @@ class GameManager:
     def __init__(self,labyrinth_list):
         self.labyrinth_list = labyrinth_list
 
+    def loop(self):
+        macgyver = MacGyver([13, 1], self.labyrinth_list)
+        items_positions = self.init_items(self.find_empty_square(self.labyrinth_list))
+        display = Display(macgyver.coordinates, self.labyrinth_list, items_positions)
+        display.macgyver_display()
+        display.items_display()
+        display.labyrinth_display()
+        macgyver.display_blackband()
+        while 1:
+            print()
+            choice = input("zqsd ou e pour quitter: ")
+            if choice == 'e':
+                break
+            else:
+                macgyver.move(choice)
+                display.macgyver_display()
+                display.labyrinth_display()
+                macgyver.display_blackband()
+
     def find_empty_square(self, labyrinth_list):
         empty_list = []
         for x in range(15):
