@@ -1,17 +1,11 @@
 import random
 
 
-class Character:
-    """Character creation"""
-    def __init__(self, coordinates):
-        """coordinates is a list [abscissa, ordered] with origin the upper left corner"""
-        self.coordinates = coordinates
-
-
-class MacGyver(Character):
+class MacGyver:
     """MacGyver management"""
     def __init__(self, coordinates, labyrinth_list):
-        super().__init__(coordinates)
+        # coordinates is a tuple (abscissa, ordered) with origin the upper left corner
+        self.coordinates = coordinates
         self.labyrinth_list = labyrinth_list
         self.items_owned = {'Needle' : False, 'Tube' : False, 'Ether' : False }
 
@@ -21,49 +15,53 @@ class MacGyver(Character):
             line = self.labyrinth_list[self.coordinates[1] - 1]
             if line[self.coordinates[0]] in [' ', 'A', 'T', 'E', 'G']:
                 MacGyver.collect_item(self, line[self.coordinates[0]])
+                self.is_victory(line[self.coordinates[0]], self.items_owned)
                 self.coordinates[1] -= 1
         if player_choice == 'q':
             line = self.labyrinth_list[self.coordinates[1]]
             if line[self.coordinates[0] - 1] in [' ', 'A', 'T', 'E', 'G']:
                 MacGyver.collect_item(self, line[self.coordinates[0] - 1])
+                self.is_victory(line[self.coordinates[0] - 1], self.items_owned)
                 self.coordinates[0] -= 1
         if player_choice == 's':
             line = self.labyrinth_list[self.coordinates[1] + 1]
             if line[self.coordinates[0]] in [' ', 'A', 'T', 'E', 'G']:
                 MacGyver.collect_item(self, line[self.coordinates[0]])
+                self.is_victory(line[self.coordinates[0]], self.items_owned)
                 self.coordinates[1] += 1
         if player_choice == 'd':
             line = self.labyrinth_list[self.coordinates[1]]
             if line[self.coordinates[0] + 1] in [' ', 'A', 'T', 'E', 'G']:
                 MacGyver.collect_item(self, line[self.coordinates[0] + 1])
+                self.is_victory(line[self.coordinates[0] + 1], self.items_owned)
                 self.coordinates[0] += 1
 
     def collect_item(self, char):
         if char == 'A':
             self.items_owned['Needle'] = True
-            print(self.items_owned['Needle'])
         if char == 'T':
             self.items_owned['Tube'] = True
-            print(self.items_owned['Tube'])
         if char == 'E':
             self.items_owned['Ether'] = True
-            print(self.items_owned['Ether'])
 
     def display_blackband(self):
         print("Objets détenus par MacGyver : ", end=' ')
-        print("NTE")
-
         for key, value in self.items_owned.items():
             print(f" {key}:", end='')
-            if value == True:
+            if value:
                 print("Oui", end=' ')
             else:
                 print("Non", end=' ')
         print()
 
-
-class Guardian(Character):
-    pass
+    def is_victory(self, char, items_owned):
+        if char == 'G':
+            if items_owned['Needle'] == True and items_owned['Tube'] == True and items_owned['Ether'] == True:
+                print("VOUS AVEZ GAGNE !!!")
+                exit()
+            else:
+                print("VOUS AVEZ PERDU !!!")
+                exit()
 
 
 class Loading:
@@ -85,7 +83,6 @@ class Loading:
 class Display:
     """Display management of labyrinth, walls, floor items and characters."""
     def __init__(self, macgyver_coordinates, labyrinth_list, items_positions):
-        # macgyver_coordinates is a tuple (abscissa, ordered) with origin the upper left corner
         self.macgyver_coordinates = macgyver_coordinates
         self.labyrinth_list = labyrinth_list
         self.items_positions = items_positions
@@ -108,10 +105,6 @@ class Display:
             line = self.labyrinth_list[self.items_positions[key][1]]
             line[self.items_positions[key][0]] = items_dictionary[key]
 
-    def guardian_display(self):
-        """add to the list the guardian: 'G'"""
-        pass
-
     def labyrinth_display(self):
         """"display the labyrinth from the list"""
         for line in self.labyrinth_list:
@@ -133,13 +126,14 @@ class GameManager:
         empty_list = []
         for x in range(15):
             for y in range(15):
-                if labyrinth_list[y][x] == ' ':
-                    empty_list.append([y, x])
+                if labyrinth_list[y][x] == ' ' and [x, y] != [13, 1]:
+                    empty_list.append([x, y])
         return empty_list
 
     def init_items(self, empty_list):
         item_positions = random.sample(empty_list, 3)
         return item_positions
+
 
 class Item:
     """Creation and management of the items: needle, plastic tube and ether"""
